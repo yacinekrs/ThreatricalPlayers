@@ -1,10 +1,22 @@
-public class Play {
+public abstract class Play {
 
   public String name;
-  public String type;
 
-  public Play(String name, String type) {
+
+  public Play(String name) {
     this.name = name;
-    this.type = type;
+    // le type c'est les classes filles
   }
+  public String getName(String name){
+    return name;
+  }
+
+  public abstract int CalculeAmount(Performance perf);
+
+  public int CalculeBonus(Performance perf){
+    return 0;
+  }
+
+  
 }
+
