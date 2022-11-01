@@ -11,10 +11,10 @@ public abstract class Play {
     return name;
   }
 
-  public abstract int CalculeAmount(Performance perf);
+  public abstract int calculeAmount(int audience);
 
-  public int CalculeBonus(Performance perf){
-    return 0;
+  public double calculeCredit(int audience){
+    return Math.max(audience - 30, 0);
   }
 
   
