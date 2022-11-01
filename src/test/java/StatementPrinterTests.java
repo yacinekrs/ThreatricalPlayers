@@ -18,10 +18,10 @@ public class StatementPrinterTests {
         Invoice invoice = new Invoice("BigCo", List.of(
                 new Performance("hamlet", 55),
                 new Performance("as-like", 35),
-                new Performance("othello", 40)));
+                new Performance("othello", 40)),playsMap);
 
         StatementPrinter statementPrinter = new StatementPrinter();
-        var result = statementPrinter.print(invoice, playsMap);
+        var result = statementPrinter.print(invoice);
 
         verify(result);
     }
