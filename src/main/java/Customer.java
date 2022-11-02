@@ -1,13 +1,14 @@
 public class Customer {
   
-  public String nom;
+  public String name;
   public String numClient;
   public int  soldePointFid;
 
-  public Customer(String nom, String numClient, int soldePointFid) {
-    this.nom = nom;
+  public Customer(String name, String numClient, int soldePointFid) {
+    this.name = name;
     this.numClient = numClient;
     this.soldePointFid = soldePointFid;
   }
+
 
 }
