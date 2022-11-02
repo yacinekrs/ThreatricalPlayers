@@ -26,6 +26,11 @@ public class Invoice {
       this.totalAmount += amount;
       this.customer.soldePointFid += play.calculeCredit(perf.audience);
     }
+
+    if (this.customer.soldePointFid >= 150) {
+      this.totalAmount -= 15;
+      this.customer.soldePointFid -= 150;
+    }
   }
 
 }

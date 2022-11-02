@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Comedie.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TheatricalPlayers</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">Comedie.java</span></div><h1>Comedie.java</h1><pre class="source lang-java linenums">public class Comedie extends Play {
+
+  public Comedie(String name) {
+<span class="fc" id="L4">    super(name);</span>
+<span class="fc" id="L5">  }</span>
+
+  @Override
+  public int calculeAmount(int audience) {
+<span class="fc" id="L9">    int thisAmount = 300 + 3 * audience;</span>
+<span class="pc bpc" id="L10" title="1 of 2 branches missed.">    if (audience &gt; 20) {</span>
+<span class="fc" id="L11">      thisAmount += 100 + 5 * (audience - 20);</span>
+    }
+<span class="fc" id="L13">    return thisAmount;</span>
+  }
+
+  @Override
+  public double calculeCredit(int audience) {
+<span class="fc" id="L18">    return super.calculeCredit(audience) + Math.floor(audience / 5);</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
