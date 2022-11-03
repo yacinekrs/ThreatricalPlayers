@@ -32,12 +32,10 @@
         <td>$500.00</td>
       </tr>
       <tr>
-        <th></th>
         <th>Total owned:</th>
         <td>$1,715.00</td>
       </tr>
       <tr>
-        <th></th>
         <th>Fidelity point earned:</th>
         <td>47</td>
       </tr>

@@ -1,7 +1,8 @@
 import java.util.*;
 
 public class Invoice {
-
+  public static int MAX_POSSIBLE_POINTS = 150;
+  public static int REDUCTION = 15;
   public Customer customer;
   private List<Performance> performances;
   private Map<String, Play> playsMap;
@@ -27,9 +28,9 @@ public class Invoice {
       this.customer.soldePointFid += play.calculeCredit(perf.audience);
     }
 
-    if (this.customer.soldePointFid >= 150) {
-      this.totalAmount -= 15;
-      this.customer.soldePointFid -= 150;
+    if (this.customer.soldePointFid >= MAX_POSSIBLE_POINTS) {
+      this.totalAmount -= REDUCTION;
+      this.customer.soldePointFid -= MAX_POSSIBLE_POINTS;
     }
   }
 

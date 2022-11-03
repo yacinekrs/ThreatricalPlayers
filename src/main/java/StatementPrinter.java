@@ -9,11 +9,10 @@ public class StatementPrinter {
 
     StringBuffer result = new StringBuffer(String.format("Statement for %s\n", invoice.customer.name));
     invoice.generate();
-    // print line for this order
+
     for (InvoiceItem invoiceItem : invoice.invoiceItemsList) {
       result.append(
-          String.format("  %s: %s (%s seats)\n", invoiceItem.playName, frmt.format(invoiceItem.amount),
-              invoiceItem.audience));
+          String.format("  %s: %s (%s seats)\n", invoiceItem.playName, frmt.format(invoiceItem.amount),invoiceItem.audience));
     }
     result.append(String.format("Amount owed is %s\n", frmt.format(invoice.totalAmount)));
     result.append(String.format("You earned %s credits\n", invoice.customer.soldePointFid));
@@ -42,8 +41,8 @@ public class StatementPrinter {
               <th>Seats sold</th>
               <th>Price</th>
             </tr>
-              """,
-    invoice.customer.name));
+              """,invoice.customer.name));
+
     for (InvoiceItem invoiceItem : invoice.invoiceItemsList) {
       result.append(String.format("""
                 <tr>
@@ -55,12 +54,10 @@ public class StatementPrinter {
     }
     result.append(String.format("""
                   <tr>
-                    <th></th>
                     <th>Total owned:</th>
                     <td>%s</td>
                   </tr>
                   <tr>
-                    <th></th>
                     <th>Fidelity point earned:</th>
                     <td>%s</td>
                   </tr>
