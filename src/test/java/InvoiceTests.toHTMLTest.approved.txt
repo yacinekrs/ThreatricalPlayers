@@ -32,11 +32,11 @@
         <td>$500.00</td>
       </tr>
       <tr>
-        <th>Total owned:</th>
+        <th colspan="2" align="right">Total owned:</th>
         <td>$1,715.00</td>
       </tr>
       <tr>
-        <th>Fidelity point earned:</th>
+        <th colspan="2" align="right">Fidelity point earned:</th>
         <td>47</td>
       </tr>
     </table>

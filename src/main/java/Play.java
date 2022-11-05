@@ -1,7 +1,5 @@
 public abstract class Play {
-
   private String name;
-
 
   public Play(String name) {
     this.name = name;

@@ -17,5 +17,4 @@ public class Comedie extends Play {
   public double calculeCredit(int audience) {
     return super.calculeCredit(audience) + Math.floor(audience / 5);
   }
-
 }

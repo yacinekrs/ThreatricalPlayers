@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="InvoiceTests" tests="5" skipped="0" failures="0" errors="0" timestamp="2022-11-05T15:11:07" hostname="LAPTOP-TPJ6UH80" time="0.551">
+  <properties/>
+  <testcase name="toTextTestSoldPntInf()" classname="InvoiceTests" time="0.26"/>
+  <testcase name="toTextTestTragedieInf()" classname="InvoiceTests" time="0.082"/>
+  <testcase name="toTextTest()" classname="InvoiceTests" time="0.083"/>
+  <testcase name="toTextTestComedieInf()" classname="InvoiceTests" time="0.06"/>
+  <testcase name="toHTMLTest()" classname="InvoiceTests" time="0.061"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

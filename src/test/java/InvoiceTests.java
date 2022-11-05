@@ -1,15 +1,12 @@
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import java.util.List;
 import java.util.Map;
-
 import static org.approvaltests.Approvals.verify;
 
-public class StatementPrinterTests {
+public class InvoiceTests {
 
     @Test
-    void exampleStatement() {
+    void toTextTest() {
         Map<String, Play> playsMap = Map.of(
                 "hamlet", new Tragedie("Hamlet"),
                 "as-like", new Comedie("As You Like It"),
@@ -20,14 +17,12 @@ public class StatementPrinterTests {
                 new Performance("as-like", 35),
                 new Performance("othello", 40)),playsMap);
 
-        StatementPrinter statementPrinter = new StatementPrinter();
-        var result = statementPrinter.print(invoice);
-
+        String result = invoice.toText();
         verify(result);
     }
     
     @Test
-    void exampleStatement1() {
+    void toTextTestComedieInf() {
         Map<String, Play> playsMap = Map.of(
                 "hamlet", new Tragedie("Hamlet"),
                 "as-like", new Comedie("As You Like It"),
@@ -38,14 +33,12 @@ public class StatementPrinterTests {
                 new Performance("as-like", 15),
                 new Performance("othello", 40)),playsMap);
 
-        StatementPrinter statementPrinter = new StatementPrinter();
-        var result = statementPrinter.print(invoice);
-
+        String result = invoice.toText();
         verify(result);
     }
-    
+
     @Test
-    void exampleStatementToHTML() {
+    void toTextTestTragedieInf() {
         Map<String, Play> playsMap = Map.of(
                 "hamlet", new Tragedie("Hamlet"),
                 "as-like", new Comedie("As You Like It"),
@@ -54,28 +47,41 @@ public class StatementPrinterTests {
         Invoice invoice = new Invoice(new Customer("BigCo", "1123AB", 150), List.of(
                 new Performance("hamlet", 55),
                 new Performance("as-like", 35),
-                new Performance("othello", 40)),playsMap);
+                new Performance("othello", 25)),playsMap);
 
-        StatementPrinter statementPrinter = new StatementPrinter();
-        var result = statementPrinter.toHTML(invoice);
-
+        String result = invoice.toText();
         verify(result);
     }
 
+    @Test
+    void toTextTestSoldPntInf() {
+        Map<String, Play> playsMap = Map.of(
+                "hamlet", new Tragedie("Hamlet"),
+                "as-like", new Comedie("As You Like It"),
+                "othello", new Tragedie("Othello"));
 
-    // @Test
-    // void statementWithNewPlayTypes() {
-    // Map<String, Play> plays = Map.of(
-    // "henry-v", new Play("Henry V", "history"),
-    // "as-like", new Play("As You Like It", "pastoral"));
+        Invoice invoice = new Invoice(new Customer("BigCo", "1123AB", 10), List.of(
+                new Performance("hamlet", 55),
+                new Performance("as-like", 35),
+                new Performance("othello", 25)),playsMap);
 
-    // Invoice invoice = new Invoice("BigCo", List.of(
-    // new Performance("henry-v", 53),
-    // new Performance("as-like", 55)));
+        String result = invoice.toText();
+        verify(result);
+    }
+    
+    @Test
+    void toHTMLTest() {
+        Map<String, Play> playsMap = Map.of(
+                "hamlet", new Tragedie("Hamlet"),
+                "as-like", new Comedie("As You Like It"),
+                "othello", new Tragedie("Othello"));
+       
+        Invoice invoice = new Invoice(new Customer("BigCo", "1123AB", 150), List.of(
+                new Performance("hamlet", 55),
+                new Performance("as-like", 35),
+                new Performance("othello", 40)),playsMap);
 
-    // StatementPrinter statementPrinter = new StatementPrinter();
-    // Assertions.assertThrows(Error.class, () -> {
-    // statementPrinter.print(invoice, plays);
-    // });
-    // }
+        String result = invoice.toHTML();
+        verify(result);
+    }
 }

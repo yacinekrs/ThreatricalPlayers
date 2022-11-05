@@ -1,37 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Invoice.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TheatricalPlayers</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">Invoice.java</span></div><h1>Invoice.java</h1><pre class="source lang-java linenums">import java.util.*;
+import java.text.NumberFormat;
 
 public class Invoice {
-
+<span class="fc" id="L5">  private static int CREDIT_THRESHOLD = 150;</span>
+<span class="fc" id="L6">  private static int REDUCTION = 15;</span>
   public Customer customer;
   private List&lt;Performance&gt; performances;
   private Map&lt;String, Play&gt; playsMap;
   public double totalAmount;
   public List&lt;InvoiceItem&gt; invoiceItemsList;
 
-<span class="fc" id="L11">  public Invoice(Customer customer, List&lt;Performance&gt; performances, Map&lt;String, Play&gt; playsMap) {</span>
-<span class="fc" id="L12">    this.customer = customer;</span>
-<span class="fc" id="L13">    this.performances = performances;</span>
-<span class="fc" id="L14">    this.playsMap = playsMap;</span>
-<span class="fc" id="L15">  }</span>
+<span class="fc" id="L13">  public Invoice(Customer customer, List&lt;Performance&gt; performances, Map&lt;String, Play&gt; playsMap) {</span>
+<span class="fc" id="L14">    this.customer = customer;</span>
+<span class="fc" id="L15">    this.performances = performances;</span>
+<span class="fc" id="L16">    this.playsMap = playsMap;</span>
+<span class="fc" id="L17">  }</span>
 
-  public void generate() {
-<span class="fc" id="L18">    this.totalAmount = 0;</span>
-<span class="fc" id="L19">    this.invoiceItemsList = new ArrayList&lt;&gt;();</span>
+  private void generate() {
+<span class="fc" id="L20">    this.totalAmount = 0;</span>
+<span class="fc" id="L21">    this.invoiceItemsList = new ArrayList&lt;&gt;();</span>
 
-<span class="fc bfc" id="L21" title="All 2 branches covered.">    for (Performance perf : performances) {</span>
-<span class="fc" id="L22">      Play play = playsMap.get(perf.playID);</span>
-<span class="fc" id="L23">      double amount = play.calculeAmount(perf.audience);</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">    for (Performance perf : performances) {</span>
+<span class="fc" id="L24">      Play play = playsMap.get(perf.playID);</span>
+<span class="fc" id="L25">      double amount = play.calculeAmount(perf.audience);</span>
 
-<span class="fc" id="L25">      this.invoiceItemsList.add(new InvoiceItem(play.getName(), perf.audience, amount));</span>
-<span class="fc" id="L26">      this.totalAmount += amount;</span>
-<span class="fc" id="L27">      this.customer.soldePointFid += play.calculeCredit(perf.audience);</span>
-<span class="fc" id="L28">    }</span>
+<span class="fc" id="L27">      this.invoiceItemsList.add(new InvoiceItem(play.getName(), perf.audience, amount));</span>
+<span class="fc" id="L28">      this.totalAmount += amount;</span>
+<span class="fc" id="L29">      this.customer.soldePointFid += play.calculeCredit(perf.audience);</span>
+<span class="fc" id="L30">    }</span>
 
-<span class="pc bpc" id="L30" title="1 of 2 branches missed.">    if (this.customer.soldePointFid &gt;= 150) {</span>
-<span class="fc" id="L31">      this.totalAmount -= 15;</span>
-<span class="fc" id="L32">      this.customer.soldePointFid -= 150;</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">    if (this.customer.soldePointFid &gt;= CREDIT_THRESHOLD) {</span>
+<span class="fc" id="L33">      this.totalAmount -= REDUCTION;</span>
+<span class="fc" id="L34">      this.customer.soldePointFid -= CREDIT_THRESHOLD;</span>
     }
-<span class="fc" id="L34">  }</span>
+<span class="fc" id="L36">  }</span>
 
+  public String toText() {
+<span class="fc" id="L39">    this.generate();</span>
+    
+<span class="fc" id="L41">    NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);</span>
+<span class="fc" id="L42">    StringBuffer result = new StringBuffer(String.format(&quot;Statement for %s\n&quot;, this.customer.name));</span>
+
+<span class="fc bfc" id="L44" title="All 2 branches covered.">    for (InvoiceItem invoiceItem : this.invoiceItemsList) {</span>
+<span class="fc" id="L45">      result.append(</span>
+<span class="fc" id="L46">          String.format(&quot;  %s: %s (%s seats)\n&quot;, invoiceItem.playName, frmt.format(invoiceItem.amount),invoiceItem.audience));</span>
+<span class="fc" id="L47">    }</span>
+<span class="fc" id="L48">    result.append(String.format(&quot;Amount owed is %s\n&quot;, frmt.format(this.totalAmount)));</span>
+<span class="fc" id="L49">    result.append(String.format(&quot;You earned %s credits\n&quot;, this.customer.soldePointFid));</span>
+<span class="fc" id="L50">    return result.toString();</span>
+  }
+
+  public String toHTML() {
+<span class="fc" id="L54">    this.generate();</span>
+
+<span class="fc" id="L56">    NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);</span>
+<span class="fc" id="L57">    StringBuffer result = new StringBuffer(String.format(&quot;&quot;&quot;</span>
+      &lt;!DOCTYPE html&gt;
+      &lt;html&gt;
+        &lt;style&gt;
+          table,th,td {
+            border: 1px solid black;
+          }
+        &lt;/style&gt;
+        &lt;body&gt;
+          &lt;h1&gt;Invoice&lt;/h1&gt;
+          &lt;ul&gt;
+            &lt;li&gt;&lt;strong&gt;Client : &lt;/strong&gt;%s&lt;/li&gt;
+          &lt;/ul&gt;
+          &lt;table&gt;
+            &lt;tr&gt;
+              &lt;th&gt;Piece&lt;/th&gt;
+              &lt;th&gt;Seats sold&lt;/th&gt;
+              &lt;th&gt;Price&lt;/th&gt;
+            &lt;/tr&gt;
+              &quot;&quot;&quot;,this.customer.name));
+
+<span class="fc bfc" id="L78" title="All 2 branches covered.">    for (InvoiceItem invoiceItem : this.invoiceItemsList) {</span>
+<span class="fc" id="L79">      result.append(String.format(&quot;&quot;&quot;</span>
+                &lt;tr&gt;
+                  &lt;td&gt;%s&lt;/td&gt;
+                  &lt;td&gt;%s&lt;/td&gt;
+                  &lt;td&gt;%s&lt;/td&gt;
+                &lt;/tr&gt;
+<span class="fc" id="L85">          &quot;&quot;&quot;, invoiceItem.playName, invoiceItem.audience, frmt.format(invoiceItem.amount)));</span>
+<span class="fc" id="L86">    }</span>
+<span class="fc" id="L87">    result.append(String.format(&quot;&quot;&quot;</span>
+                  &lt;tr&gt;
+                    &lt;th colspan=&quot;2&quot; align=&quot;right&quot;&gt;Total owned:&lt;/th&gt;
+                    &lt;td&gt;%s&lt;/td&gt;
+                  &lt;/tr&gt;
+                  &lt;tr&gt;
+                    &lt;th colspan=&quot;2&quot; align=&quot;right&quot;&gt;Fidelity point earned:&lt;/th&gt;
+                    &lt;td&gt;%s&lt;/td&gt;
+                  &lt;/tr&gt;
+                &lt;/table&gt;
+                &lt;p&gt;
+                  &lt;i&gt;Payment is required under 30 days. We can break your knees if you don\'t do so&lt;/i&gt;
+                &lt;/p&gt;
+              &lt;/body&gt;
+            &lt;/html&gt;
+<span class="fc" id="L102">            &quot;&quot;&quot;, frmt.format(this.totalAmount), this.customer.soldePointFid));</span>
+
+<span class="fc" id="L104">    return result.toString();</span>
+  }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
